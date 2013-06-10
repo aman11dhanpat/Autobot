@@ -13,6 +13,7 @@
 #define HOST_LEN 1024
 #define PORT_LEN 8
 
+#define BUFF_LEN 8192
 
 typedef enum
 {
@@ -36,5 +37,7 @@ void connection_destroy (Connection* connection);
 ConnectionState connection_connect (Connection* connection);
 
 void connection_disconnect (Connection* connection);
+
+int connection_printf (Connection* connection, char* format, ...);
 
 #endif

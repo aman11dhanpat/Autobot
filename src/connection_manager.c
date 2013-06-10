@@ -50,3 +50,15 @@ void connection_disconnect (Connection* connection)
 	//TODO: Handle errors.
 	close (connection->connection_fd);
 }
+
+int connection_printf (Connection* connection, char* format, ...)
+{
+	va_list list;
+	char bufffer [BUFF_LEN];
+	va_start (list, format);
+	vsnprintf (buffer, BUFF_LEN, format, list);
+	va_end (list);
+	if (connection->state != ConnectionState_connected)
+		return 0;
+	return write (connection->connection_fd, buffer, strlen (buffer));
+}
