@@ -26,17 +26,27 @@ void connection_destroy (Connection* connection)
 
 ConnectionState connection_connect (Connection* connection)
 {
+	struct addrinfo hints, *resolved;
 	if (!connection)
 		return ConnectionState_Invalid;
 	if (connection->state == ConnectionState_Connected)
 		return connection->state;
-	//TODO: Connect to the host.
-	return ConnectionState_Disconnected;
+	memset (&hints, 0, sizeof (struct addrinfo));
+	hints.ai_family = AF_INET;
+	hints.ai_socktype = SOCK_STREAM;
+	//TODO: Handle errors.
+	assert (getaddrinfo (connection->host, connection->port, &hints, &resolved) == 0);
+	connection->connection_fd = socket (resolved->ai_family, resolved->ai_socktype, resolved->ai_protocol);
+	assert (connection->connection_fd != -1);
+	assert (connect (connection->connection_fd, resolved->ai_addr, resolved->ai_addrlen) == 0);
+	free (resolved);
+	return ConnectionState_Connected;
 }
 
 void connection_disconnect (Connection* connection)
 {
 	if (!connection)
 		return;
-	//TODO: Disconnect from host.
+	//TODO: Handle errors.
+	close (connection->connection_fd);
 }

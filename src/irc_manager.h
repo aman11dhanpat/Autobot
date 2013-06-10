@@ -6,6 +6,9 @@
 
 #include <connection_manager.h>
 
+#define NICK_LEN 64
+#define CHAN_LEN 512
+
 typedef enum
 {
 	IRCState_Invalid,
@@ -25,9 +28,9 @@ IRC* irc_new (char* host, char* port, char* nick, char* channel);
 
 void irc_destroy (IRC* irc);
 
-int irc_connect (IRC* irc);
+IRCState irc_connect (IRC* irc);
 
-int irc_disconnect (IRC* irc);
+void irc_disconnect (IRC* irc);
 
 
 #endif

@@ -26,13 +26,14 @@ void irc_destroy (IRC* irc)
 	free (irc);
 }
 
-int irc_connect ()
+IRCState irc_connect (IRC* irc)
 {
 	assert (connection_connect (irc->connection) == ConnectionState_Connected);
 	//TODO: Connect to IRC server.
+	return IRCState_Invalid;
 }
 
-void irc_disconnect ()
+void irc_disconnect (IRC* irc)
 {
 	//TODO: Disconnect from IRC server.
 	connection_disconnect (irc->connection);

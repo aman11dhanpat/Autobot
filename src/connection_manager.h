@@ -5,6 +5,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netdb.h>
+#include <unistd.h>
 
 #define HOST_LEN 1024
 #define PORT_LEN 8
