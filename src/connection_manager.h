@@ -42,4 +42,6 @@ void connection_disconnect (Connection* connection);
 
 int connection_printf (Connection* connection, char* format, ...);
 
+int connection_vprintf (Connection* connection, char* format, va_list list);
+
 #endif

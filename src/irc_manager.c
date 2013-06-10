@@ -55,3 +55,13 @@ void irc_disconnect (IRC* irc)
 	assert (connection_printf (irc->connection, "QUIT :Going out of service.\r\n") > 0);
 	connection_disconnect (irc->connection);
 }
+
+int irc_send_raw (IRC* irc, char* format, ...)
+{
+	va_list list;
+	int ret;
+	va_start (list, format);
+	ret =  connection_vprintf (irc->connection, format, list);
+	va_end (list);
+	return ret;
+}

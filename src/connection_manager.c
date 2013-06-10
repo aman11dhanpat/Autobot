@@ -58,10 +58,17 @@ void connection_disconnect (Connection* connection)
 int connection_printf (Connection* connection, char* format, ...)
 {
 	va_list list;
-	char buffer [BUFF_LEN];
+	int ret;
 	va_start (list, format);
-	vsnprintf (buffer, BUFF_LEN, format, list);
+	ret = connection_vprintf (connection, format, list);
 	va_end (list);
+	return ret;
+}
+
+int connection_vprintf (Connection* connection, char* format, va_list list)
+{
+	char buffer [BUFF_LEN];
+	vsnprintf (buffer, BUFF_LEN, format, list);
 	if (connection->state != ConnectionState_Connected)
 		return 0;
 	return write (connection->connection_fd, buffer, strlen (buffer));

@@ -34,5 +34,6 @@ IRCState irc_connect (IRC* irc);
 
 void irc_disconnect (IRC* irc);
 
+int irc_send_raw (IRC* irc, char* format, ...);
 
 #endif
