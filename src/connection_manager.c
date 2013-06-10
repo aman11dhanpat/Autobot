@@ -1,16 +1,10 @@
 #include <connection_manager.h>
 
-Connection* connection_new (char* nick, char* channel, char* host, char* port)
+Connection* connection_new (char* host, char* port)
 {
 	Connection *new = (Connection*) malloc (sizeof (Connection));
 	assert (new != NULL);
 	new-> connection_fd = -1;
-	if (nick)
-		strncpy (new->nick, nick, NICK_LEN - 1);
-	new->nick [NICK_LEN - 1] = '\0';
-	if (channel)
-		strncpy (new->channel, channel, CHAN_LEN - 1);
-	new->channel [CHAN_LEN - 1] = '\0';
 	if (host)
 		strncpy (new->host, host, HOST_LEN - 1);
 	new->host [HOST_LEN - 1] = '\0';
@@ -23,22 +17,26 @@ Connection* connection_new (char* nick, char* channel, char* host, char* port)
 
 void connection_destroy (Connection* connection)
 {
-	if (connection->state == ConnectionState_Connected)
+	if (connection->state != ConnectionState_Disconnected)
 	{
 		connection_disconnect (connection);
 	}
 	free (connection);
 }
 
-int connection_connect (Connection* connection)
+ConnectionState connection_connect (Connection* connection)
 {
 	if (!connection)
-		return 0;
-	return 0;
+		return ConnectionState_Invalid;
+	if (connection->state == ConnectionState_Connected)
+		return connection->state;
+	//TODO: Connect to the host.
+	return ConnectionState_Disconnected;
 }
 
 void connection_disconnect (Connection* connection)
 {
 	if (!connection)
 		return;
+	//TODO: Disconnect from host.
 }
