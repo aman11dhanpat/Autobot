@@ -7,6 +7,7 @@
 #include <connection_manager.h>
 
 #define NICK_LEN 64
+#define PASS_LEN 64
 #define CHAN_LEN 512
 
 typedef enum
@@ -20,11 +21,12 @@ typedef struct
 {
 	Connection* connection;
 	char nick [NICK_LEN];
+	char password [PASS_LEN];
 	char channel [CHAN_LEN];
 	IRCState state;
 } IRC;
 
-IRC* irc_new (char* host, char* port, char* nick, char* channel);
+IRC* irc_new (char* host, char* port, char* nick, char* password, char* channel);
 
 void irc_destroy (IRC* irc);
 

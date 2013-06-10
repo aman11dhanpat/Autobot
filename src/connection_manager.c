@@ -17,6 +17,7 @@ Connection* connection_new (char* host, char* port)
 
 void connection_destroy (Connection* connection)
 {
+	assert (connection);
 	if (connection->state != ConnectionState_Disconnected)
 	{
 		connection_disconnect (connection);
@@ -40,6 +41,7 @@ ConnectionState connection_connect (Connection* connection)
 	assert (connection->connection_fd != -1);
 	assert (connect (connection->connection_fd, resolved->ai_addr, resolved->ai_addrlen) == 0);
 	free (resolved);
+	connection->state = ConnectionState_Connected;
 	return ConnectionState_Connected;
 }
 
@@ -48,17 +50,19 @@ void connection_disconnect (Connection* connection)
 	if (!connection)
 		return;
 	//TODO: Handle errors.
-	close (connection->connection_fd);
+	if (connection->state == ConnectionState_Connected)
+		close (connection->connection_fd);
+	connection->state = ConnectionState_Disconnected;
 }
 
 int connection_printf (Connection* connection, char* format, ...)
 {
 	va_list list;
-	char bufffer [BUFF_LEN];
+	char buffer [BUFF_LEN];
 	va_start (list, format);
 	vsnprintf (buffer, BUFF_LEN, format, list);
 	va_end (list);
-	if (connection->state != ConnectionState_connected)
+	if (connection->state != ConnectionState_Connected)
 		return 0;
 	return write (connection->connection_fd, buffer, strlen (buffer));
 }

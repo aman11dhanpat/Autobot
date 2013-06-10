@@ -9,6 +9,8 @@
 #include <sys/socket.h>
 #include <netdb.h>
 #include <unistd.h>
+#include <stdarg.h>
+#include <stdio.h>
 
 #define HOST_LEN 1024
 #define PORT_LEN 8
