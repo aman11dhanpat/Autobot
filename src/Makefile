@@ -1,13 +1,16 @@
 CC=gcc
 CFLAGS=-Wall -I.
 
-all:
+BIN_FILES=
 
-irc_manager.o: irc_manager.c irc_manager.h
-	$(CC) $(CFLAGS) -c -o irc_manager.o irc_manager.c
+OBJ_FILES=\
+	  connection_manager.o\
+	  irc_manager.o
 
-connection_manager.o: connection_manager.c connection_manager.h
-	$(CC) $(CFLAGS) -c -o connection_manager.o connection_manager.c
+all: $(BIN_FILES)
+
+%.o: %.c %.h
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm -rvf *.o
+	rm -rvf $(BIN_FILES) $(OBJ_FILES)
