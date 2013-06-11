@@ -44,4 +44,8 @@ int connection_printf (Connection* connection, char* format, ...);
 
 int connection_vprintf (Connection* connection, char* format, va_list list);
 
+int connection_read (Connection* connection, char* buffer, int buffer_size);
+
+int connection_read_async (Connection* connection, char* buffer, int buffer_size);
+
 #endif
