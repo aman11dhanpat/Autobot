@@ -54,6 +54,7 @@ void irc_disconnect (IRC* irc)
 	//TODO: Handle errors.
 	assert (connection_printf (irc->connection, "QUIT :Going out of service.\r\n") > 0);
 	connection_disconnect (irc->connection);
+	irc->state = IRCState_Disconnected;
 }
 
 int irc_send_raw (IRC* irc, char* format, ...)
