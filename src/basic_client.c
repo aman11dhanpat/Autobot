@@ -29,13 +29,15 @@ int main()
 		{
 			tmp = read (0, buff, 1000);
 			buff [tmp] = '\0';
-			if (strcmp (buff, "QUIT") == 0)
+			if (strncmp (buff, "QUIT", 4) == 0)
 				break;
 			printf ("%d bytes written\n",irc_send_raw (irc, "%s\r\n", buff));
 		}
 		if (FD_ISSET (irc->connection->connection_fd, &readfds))
 		{
 			tmp = read (irc->connection->connection_fd, buff, 1000);
+			if (tmp == 0)
+				break;
 			buff [tmp] = '\0';
 			printf ("\n>>%s\n", buff);
 		}
