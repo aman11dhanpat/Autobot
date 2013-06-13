@@ -73,3 +73,35 @@ int connection_vprintf (Connection* connection, char* format, va_list list)
 		return 0;
 	return write (connection->connection_fd, buffer, strlen (buffer));
 }
+
+int connection_read (Connection* connection, char* buffer, int buffer_size)
+{
+	int ret;
+	ret = read (connection->connection_fd, buffer, buffer_size);
+	if (ret < buffer_size - 1)
+		buffer [ret] = '\0';
+	return ret;
+}
+
+int connection_read_async (Connection* connection, char* buffer, int buffer_size)
+{
+	int ret;
+	struct timeval zero;
+	fd_set readfds;
+	zero.tv_sec = 0;
+	zero.tv_usec = 0;
+	FD_ZERO (&readfds);
+	FD_SET (connection->connection_fd, &readfds);
+	select (connection->connection_fd + 1, &readfds, NULL, NULL, &zero);
+	if (FD_ISSET (connection->connection_fd, &readfds))
+	{
+		ret = read (connection->connection_fd, buffer, buffer_size);
+		if (ret < buffer_size - 1)
+			buffer [ret] = '\0';
+		return ret;
+	}
+	else
+	{
+		return -2;
+	}
+}

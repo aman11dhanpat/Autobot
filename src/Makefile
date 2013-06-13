@@ -1,16 +1,19 @@
 CC=gcc
 CFLAGS=-Wall -I.
 
-all:basic_client
+BIN_FILES=basic_client
+
+OBJ_FILES=\
+	  connection_manager.o\
+	  irc_manager.o
+
+all: $(BIN_FILES)
 
 basic_client: basic_client.c irc_manager.o connection_manager.o
-	$(CC) $(CFLAGS) -o basic_client basic_client.c irc_manager.o connection_manager.o
+	$(CC) $(CFLAGS) -o $@ $^
 
-irc_manager.o: irc_manager.c irc_manager.h
-	$(CC) $(CFLAGS) -c -o irc_manager.o irc_manager.c
-
-connection_manager.o: connection_manager.c connection_manager.h
-	$(CC) $(CFLAGS) -c -o connection_manager.o connection_manager.c
+%.o: %.c %.h
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm -rvf *.o
+	rm -rvf $(BIN_FILES) $(OBJ_FILES)
