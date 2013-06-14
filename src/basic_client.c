@@ -34,6 +34,12 @@ int main()
 			if (tmp == 0)
 				break;
 			buff [tmp] = '\0';
+			if (strncmp (buff, "PING", 4) == 0)
+			{
+				printf ("\n>>%s\n", buff);
+				buff [1] = 'O';
+				printf ("%d bytes written\n",irc_send_raw (irc, "%s\r\n", buff));
+			}
 			printf ("\n>>%s\n", buff);
 		}
 	}
