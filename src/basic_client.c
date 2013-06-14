@@ -1,7 +1,5 @@
 #include <irc_manager.h>
 #include <stdio.h>
-#include <sys/time.h>
-#include <sys/types.h>
 #include <unistd.h>
 
 int main()
@@ -10,7 +8,6 @@ int main()
 	char pass[100];
 	char buff[1024];
 	IRC* irc;
-	struct timeval tv;
 	int tmp;
 	fd_set readfds;
 	scanf ("%s", name);
@@ -19,12 +16,10 @@ int main()
 	assert (irc_connect (irc) == IRCState_Connected);
 	while (1)
 	{
-		tv.tv_sec = 0;
-		tv.tv_usec = 50000;
 		FD_ZERO (&readfds);
 		FD_SET (0, &readfds);
 		FD_SET (irc->connection->connection_fd, &readfds);
-		select (irc->connection->connection_fd + 1, &readfds, NULL, NULL, &tv);
+		select (irc->connection->connection_fd + 1, &readfds, NULL, NULL, NULL);
 		if (FD_ISSET (0, &readfds))
 		{
 			tmp = read (0, buff, 1000);
