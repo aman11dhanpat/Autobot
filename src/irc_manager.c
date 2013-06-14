@@ -45,6 +45,8 @@ IRCState irc_connect (IRC* irc)
 		assert (connection_printf (irc->connection, "PASS %s\r\n", irc->password) > 0);
 	assert (connection_printf (irc->connection, "NICK %s\r\n", irc->nick) > 0);
 	assert (connection_printf (irc->connection, "USER %s 0 0 :%s Bot\r\n", irc->nick, irc->nick) > 0);
+	if (strlen (irc->channel) > 0)
+		assert (connection_printf (irc->connection, "JOIN %s\r\n", irc->channel) > 0);
 	irc->state = IRCState_Connected;
 	return IRCState_Connected;
 }
