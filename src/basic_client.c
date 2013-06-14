@@ -6,13 +6,15 @@ int main()
 {
 	char name[100];
 	char pass[100];
+	char chan[100];
 	char buff[1024];
 	IRC* irc;
 	int tmp;
 	fd_set readfds;
 	scanf ("%s", name);
 	scanf ("%s", pass);
-	irc = irc_new ("irc.freenode.net", "6667", name, pass, NULL);
+	scanf ("%s", chan);
+	irc = irc_new ("irc.freenode.net", "6667", name, pass, chan);
 	assert (irc_connect (irc) == IRCState_Connected);
 	while (1)
 	{
