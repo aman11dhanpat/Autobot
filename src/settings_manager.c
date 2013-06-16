@@ -83,13 +83,13 @@ char* settings_get_value (Settings* settings, const char* attribute)
 	int l;
 	int len = strlen (attribute);
 	if (!len)
-		return NULL;
+		return "";
 	for (l = 0; l < settings->settings_count; l++)
 	{
 		if (strncmp (settings->settings [l].attribute, attribute, len) == 0)
 			return settings->settings [l].value;
 	}
-	return NULL;
+	return "";
 }
 
 void settings_destroy (Settings* settings)
