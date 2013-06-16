@@ -6,7 +6,8 @@ BIN_FILES=basic_client
 OBJ_FILES=\
 	  connection_manager.o\
 	  irc_manager.o\
-	  logger.o
+	  logger.o\
+	  settings_manager.o
 
 all: $(BIN_FILES)
 
