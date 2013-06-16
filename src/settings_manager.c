@@ -7,15 +7,27 @@ static int setting_split (char* input, char* attribute, char* value)
 	//TODO: Handle errors.
 	if (!input || !attribute || !value)
 		return 0;
-	split_point = strchr (input, ':');
+
+	while ((*input) == ' ')
+		input++;
+	split_point = strchr (input, SPLIT_CHAR);
 	if (!split_point)
 		return 0;
 	len = split_point - input;
 	strncpy (attribute, input, len);
+	while (attribute [len - 1] == ' ')
+		len--;
 	attribute [len] = '\0';
+
+	split_point++;
+	while ((*split_point) == ' ')
+		split_point++
 	len = strlen (split_point);
 	strncpy (value, split_point + 1, len);
+	while (value [len - 1] == ' ')
+		len--;
 	value [len] = '\0';
+
 	return 1;
 }
 
@@ -83,13 +95,13 @@ char* settings_get_value (Settings* settings, const char* attribute)
 	int l;
 	int len = strlen (attribute);
 	if (!len)
-		return "";
+		return SPLIT_CHAR;
 	for (l = 0; l < settings->settings_count; l++)
 	{
 		if (strncmp (settings->settings [l].attribute, attribute, len) == 0)
 			return settings->settings [l].value;
 	}
-	return "";
+	return SPLIT_CHAR;
 }
 
 void settings_destroy (Settings* settings)
