@@ -37,6 +37,7 @@ Settings* settings_import ()
 	char buffer [1280];
 	char attribute [ATTR_LEN];
 	char value [VAL_LEN];
+	char ch;
 	Settings* new;
 	new = (Settings*) malloc (sizeof (Settings));
 	//TODO: Handle errors.
@@ -47,8 +48,26 @@ Settings* settings_import ()
 	assert (file != -1);
 	while (1)
 	{
-		if ((len = read (file, buffer, 1280)) == 0)
+		len = 0;
+		while (1)
+		{
+			if (read (file, &ch, 1) == 0)
+			{
+				len = -1;
+				break;
+			}
+			buffer [len] = ch;
+			if (ch == '\n' || ch == '\r')
+				break;
+			len++;
+
+		}
+		if (len < 0)
 			break;
+		if (len < 1)
+			continue;
+		if (buffer [0] == '#')
+			continue;
 		buffer [len] = '\0';
 		if (setting_split (buffer, attribute, value))
 		{
