@@ -23,7 +23,7 @@ static int setting_split (char* input, char* attribute, char* value)
 	while ((*split_point) == ' ')
 		split_point++;
 	len = strlen (split_point);
-	strncpy (value, split_point + 1, len);
+	strncpy (value, split_point, len);
 	while (value [len - 1] == ' ')
 		len--;
 	value [len] = '\0';
