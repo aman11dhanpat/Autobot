@@ -1,21 +1,52 @@
 #include <irc_manager.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <settings_manager.h>
 
 int main()
 {
 	char name[100];
 	char pass[100];
 	char chan[100];
+	char server[1024];
+	char port[100];
 	char buff[1024];
 	IRC* irc;
 	int tmp;
+	Settings* settings;
 	fd_set readfds;
-	scanf ("%s", name);
-	scanf ("%s", pass);
-	scanf ("%s", chan);
-	irc = irc_new ("irc.freenode.net", "6667", name, pass, chan);
+	settings = settings_import ();
+	strcpy (name, settings_get_value (settings, "IRC.NICK"));
+	if (strlen (name) == 0)
+	{
+		printf ("IRC.NICK : ");
+		scanf ("%s", name);
+	}
+	strcpy (pass, settings_get_value (settings, "IRC.PASS"));
+	if (strlen (pass) == 0)
+	{
+		printf ("IRC.PASS : ");
+		scanf ("%s", pass);
+	}
+	strcpy (chan, settings_get_value (settings, "IRC.CHAN"));
+	if (strlen (chan) == 0)
+	{
+		printf ("IRC.CHAN : ");
+		scanf ("%s", chan);
+	}
+	strcpy (server, settings_get_value (settings, "IRC.SERVER"));
+	if (strlen (server) == 0)
+	{
+		strcpy (server, "irc.freenode.net");
+	}
+	strcpy (port, settings_get_value (settings, "IRC.PORT"));
+	if (strlen (port) == 0)
+	{
+		strcpy (port, "6667");
+	}
+	irc = irc_new (server, port, name, pass, chan);
 	assert (irc_connect (irc) == IRCState_Connected);
+	settings_destroy (settings);
 	while (1)
 	{
 		FD_ZERO (&readfds);

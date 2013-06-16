@@ -11,7 +11,7 @@ OBJ_FILES=\
 
 all: $(BIN_FILES)
 
-basic_client: basic_client.c irc_manager.o connection_manager.o
+basic_client: basic_client.c irc_manager.o connection_manager.o settings_manager.o
 	$(CC) $(CFLAGS) -o $@ $^
 
 %.o: %.c %.h
