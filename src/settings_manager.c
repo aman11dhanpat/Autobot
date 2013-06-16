@@ -21,7 +21,7 @@ static int setting_split (char* input, char* attribute, char* value)
 
 	split_point++;
 	while ((*split_point) == ' ')
-		split_point++
+		split_point++;
 	len = strlen (split_point);
 	strncpy (value, split_point + 1, len);
 	while (value [len - 1] == ' ')
@@ -95,13 +95,13 @@ char* settings_get_value (Settings* settings, const char* attribute)
 	int l;
 	int len = strlen (attribute);
 	if (!len)
-		return SPLIT_CHAR;
+		return SPLIT_STR;
 	for (l = 0; l < settings->settings_count; l++)
 	{
 		if (strncmp (settings->settings [l].attribute, attribute, len) == 0)
 			return settings->settings [l].value;
 	}
-	return SPLIT_CHAR;
+	return SPLIT_STR;
 }
 
 void settings_destroy (Settings* settings)
