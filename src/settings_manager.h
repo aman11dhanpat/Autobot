@@ -13,6 +13,9 @@
 
 #define SETTINGS_FILE_NAME "autobot.conf"
 
+#define SPLIT_CHAR ':'
+#define SPLIT_STR ":"
+
 typedef struct
 {
 	char attribute [ATTR_LEN];
