@@ -17,30 +17,30 @@ int main()
 	fd_set readfds;
 	settings = settings_import ();
 	strcpy (name, settings_get_value (settings, "IRC.NICK"));
-	if (strlen (name) == 0)
+	if (strlen (name) == 0 || name [0] == SPLIT_CHAR)
 	{
 		printf ("IRC.NICK : ");
 		scanf ("%s", name);
 	}
 	strcpy (pass, settings_get_value (settings, "IRC.PASS"));
-	if (strlen (pass) == 0)
+	if (pass [0] == SPLIT_CHAR)
 	{
 		printf ("IRC.PASS : ");
 		scanf ("%s", pass);
 	}
 	strcpy (chan, settings_get_value (settings, "IRC.CHAN"));
-	if (strlen (chan) == 0)
+	if (chan [0] == SPLIT_CHAR)
 	{
 		printf ("IRC.CHAN : ");
 		scanf ("%s", chan);
 	}
 	strcpy (server, settings_get_value (settings, "IRC.SERVER"));
-	if (strlen (server) == 0)
+	if (strlen (server) == 0 || server [0] == SPLIT_CHAR)
 	{
 		strcpy (server, "irc.freenode.net");
 	}
 	strcpy (port, settings_get_value (settings, "IRC.PORT"));
-	if (strlen (port) == 0)
+	if (strlen (port) == 0 || port [0] == SPLIT_CHAR)
 	{
 		strcpy (port, "6667");
 	}
